@@ -676,10 +676,11 @@ public class StickerView extends FrameLayout {
             int index = stickers.indexOf(handlingSticker);
             stickers.set(index, sticker);
             handlingSticker = sticker;
-
             invalidate();
             return true;
         } else {
+            handlingSticker = sticker;
+            invalidate();
             return false;
         }
     }
