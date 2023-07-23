@@ -9,14 +9,14 @@
     tools:context="com.xiaopo.flying.stickerview.MainActivity"
     >
 
-  <android.support.v7.widget.Toolbar
+  <androidx.appcompat.widget.Toolbar
       android:id="@+id/toolbar"
       android:layout_width="match_parent"
       android:layout_height="56dp"
       android:background="@color/colorPrimary"
       >
 
-  </android.support.v7.widget.Toolbar>
+  </androidx.appcompat.widget.Toolbar>
 
   <com.xiaopo.flying.sticker.StickerView
       android:id="@+id/sticker_view"

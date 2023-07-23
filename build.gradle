@@ -23,6 +23,6 @@ task clean(type: Delete) {
 }
 
 ext {
-  supportLibraryVersion = '25.3.1'
+  appcompatVersion = '1.6.1'
   photoViewVersion = 'v1.2.5'
 }

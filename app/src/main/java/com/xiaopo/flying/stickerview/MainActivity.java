@@ -5,11 +5,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Layout;
 import android.util.Log;
 import android.view.MenuItem;
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     sticker = new TextSticker(this);
 
     sticker.setDrawable(ContextCompat.getDrawable(getApplicationContext(),
-            R.drawable.sticker_transparent_background));
+            com.xiaopo.flying.sticker.R.drawable.sticker_transparent_background));
     sticker.setText("Hello, world!");
     sticker.setTextColor(Color.BLACK);
     sticker.setTextAlign(Layout.Alignment.ALIGN_CENTER);
