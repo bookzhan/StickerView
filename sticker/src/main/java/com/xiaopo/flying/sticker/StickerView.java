@@ -108,7 +108,6 @@ public class StickerView extends FrameLayout {
 
     private long lastClickTime = 0;
     private int minClickDelayTime = DEFAULT_MIN_CLICK_DELAY_TIME;
-    private boolean autoScaleToFit = false;
 
     public StickerView(Context context) {
         this(context, null);
@@ -738,18 +737,10 @@ public class StickerView extends FrameLayout {
         return this;
     }
 
-    public boolean isAutoScaleToFit() {
-        return autoScaleToFit;
-    }
-
-    public void setAutoScaleToFit(boolean autoScaleToFit) {
-        this.autoScaleToFit = autoScaleToFit;
-    }
-
     protected void addStickerImmediately(@NonNull Sticker sticker, @Sticker.Position int position) {
         setStickerPosition(sticker, position);
 
-        if (autoScaleToFit) {
+        if (sticker.isAutoScaleToFit()) {
             float scaleFactor, widthScaleFactor, heightScaleFactor;
             widthScaleFactor = (float) getWidth() / sticker.getDrawable().getIntrinsicWidth();
             heightScaleFactor = (float) getHeight() / sticker.getDrawable().getIntrinsicHeight();

@@ -36,6 +36,8 @@ public abstract class Sticker {
   private final Matrix matrix = new Matrix();
   private boolean isFlippedHorizontally;
   private boolean isFlippedVertically;
+  private boolean autoScaleToFit = false;
+
 
   public boolean isFlippedHorizontally() {
     return isFlippedHorizontally;
@@ -80,6 +82,14 @@ public abstract class Sticker {
     float[] points = new float[8];
     getBoundPoints(points);
     return points;
+  }
+
+  public boolean isAutoScaleToFit() {
+    return autoScaleToFit;
+  }
+
+  public void setAutoScaleToFit(boolean autoScaleToFit) {
+    this.autoScaleToFit = autoScaleToFit;
   }
 
   public void getBoundPoints(@NonNull float[] points) {
