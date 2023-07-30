@@ -36,7 +36,7 @@ public abstract class Sticker {
   private final Matrix matrix = new Matrix();
   private boolean isFlippedHorizontally;
   private boolean isFlippedVertically;
-  private boolean autoScaleToFit = false;
+  private boolean autoScaleToFit = true;
 
 
   public boolean isFlippedHorizontally() {
