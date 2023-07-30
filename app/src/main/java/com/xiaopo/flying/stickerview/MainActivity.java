@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void testAdd(View view) {
         final TextSticker sticker = new TextSticker(this);
-        sticker.setText("Hello, world!");
+        sticker.setText("0");
         sticker.setTextColor(Color.BLUE);
         sticker.setTextAlign(Layout.Alignment.ALIGN_CENTER);
         sticker.resizeText();
