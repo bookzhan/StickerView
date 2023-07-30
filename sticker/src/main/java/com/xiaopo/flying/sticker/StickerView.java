@@ -42,6 +42,8 @@ public class StickerView extends FrameLayout {
     private final boolean showIcons;
     private final boolean showBorder;
     private final boolean bringToFrontCurrentSticker;
+    private int lastWidth;
+    private int lastHeight;
 
     @IntDef({
             ActionMode.NONE, ActionMode.DRAG, ActionMode.ZOOM_WITH_TWO_FINGER, ActionMode.ICON,
@@ -574,6 +576,11 @@ public class StickerView extends FrameLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldW, int oldH) {
         super.onSizeChanged(w, h, oldW, oldH);
+        if (lastWidth == w && lastHeight == h) {
+            return;
+        }
+        lastWidth = w;
+        lastHeight = h;
         for (int i = 0; i < stickers.size(); i++) {
             Sticker sticker = stickers.get(i);
             if (sticker != null) {
@@ -589,8 +596,8 @@ public class StickerView extends FrameLayout {
      * step 2：Calculate the zoom and zoom
      **/
     protected void transformSticker(@Nullable Sticker sticker) {
-        if (sticker == null) {
-            Log.e(TAG, "transformSticker: the bitmapSticker is null or the bitmapSticker bitmap is null");
+        if (sticker == null || !sticker.isOnSizeChangedResetPosition()) {
+            Log.e(TAG, "transformSticker: sticker == null || !sticker.isOnSizeChangedResetPosition()");
             return;
         }
 
@@ -606,16 +613,16 @@ public class StickerView extends FrameLayout {
 
         sizeMatrix.postTranslate(offsetX, offsetY);
 
-        //step 2
-        float scaleFactor;
-        if (width < height) {
-            scaleFactor = width / stickerWidth;
-        } else {
-            scaleFactor = height / stickerHeight;
+        if (sticker.isAutoScaleToFit()) {
+            //step 2
+            float scaleFactor;
+            if (width < height) {
+                scaleFactor = width / stickerWidth;
+            } else {
+                scaleFactor = height / stickerHeight;
+            }
+            sizeMatrix.postScale(scaleFactor / 2f, scaleFactor / 2f, width / 2f, height / 2f);
         }
-
-        sizeMatrix.postScale(scaleFactor / 2f, scaleFactor / 2f, width / 2f, height / 2f);
-
         sticker.getMatrix().reset();
         sticker.setMatrix(sizeMatrix);
 

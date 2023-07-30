@@ -37,6 +37,7 @@ public abstract class Sticker {
   private boolean isFlippedHorizontally;
   private boolean isFlippedVertically;
   private boolean autoScaleToFit = true;
+  private boolean onSizeChangedResetPosition = false;
 
 
   public boolean isFlippedHorizontally() {
@@ -90,6 +91,14 @@ public abstract class Sticker {
 
   public void setAutoScaleToFit(boolean autoScaleToFit) {
     this.autoScaleToFit = autoScaleToFit;
+  }
+
+  public boolean isOnSizeChangedResetPosition() {
+    return onSizeChangedResetPosition;
+  }
+
+  public void setOnSizeChangedResetPosition(boolean onSizeChangedResetPosition) {
+    this.onSizeChangedResetPosition = onSizeChangedResetPosition;
   }
 
   public void getBoundPoints(@NonNull float[] points) {
