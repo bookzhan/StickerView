@@ -367,6 +367,7 @@ public class StickerView extends FrameLayout {
         }
 
         if (currentIcon == null && handlingSticker == null) {
+            invalidate();
             return false;
         }
         invalidate();
