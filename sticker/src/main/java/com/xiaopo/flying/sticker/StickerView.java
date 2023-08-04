@@ -39,9 +39,9 @@ import java.util.List;
  */
 public class StickerView extends FrameLayout {
 
-    private final boolean showIcons;
-    private final boolean showBorder;
-    private final boolean bringToFrontCurrentSticker;
+    private boolean showIcons;
+    private boolean showBorder;
+    private boolean bringToFrontCurrentSticker;
     private int lastWidth;
     private int lastHeight;
 
@@ -886,6 +886,33 @@ public class StickerView extends FrameLayout {
     public void setIcons(@NonNull List<BitmapStickerIcon> icons) {
         this.icons.clear();
         this.icons.addAll(icons);
+        invalidate();
+    }
+
+    public boolean isShowIcons() {
+        return showIcons;
+    }
+
+    public void setShowIcons(boolean showIcons) {
+        this.showIcons = showIcons;
+        invalidate();
+    }
+
+    public boolean isShowBorder() {
+        return showBorder;
+    }
+
+    public void setShowBorder(boolean showBorder) {
+        this.showBorder = showBorder;
+        invalidate();
+    }
+
+    public boolean isBringToFrontCurrentSticker() {
+        return bringToFrontCurrentSticker;
+    }
+
+    public void setBringToFrontCurrentSticker(boolean bringToFrontCurrentSticker) {
+        this.bringToFrontCurrentSticker = bringToFrontCurrentSticker;
         invalidate();
     }
 
