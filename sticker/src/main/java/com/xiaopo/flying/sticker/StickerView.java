@@ -735,12 +735,7 @@ public class StickerView extends FrameLayout {
         if (ViewCompat.isLaidOut(this)) {
             addStickerImmediately(sticker, position);
         } else {
-            post(new Runnable() {
-                @Override
-                public void run() {
-                    addStickerImmediately(sticker, position);
-                }
-            });
+            post(() -> addStickerImmediately(sticker, position));
         }
         return this;
     }
