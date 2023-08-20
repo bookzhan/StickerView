@@ -752,7 +752,7 @@ public class StickerView extends FrameLayout {
                     .postScale(scaleFactor / 2f, scaleFactor / 2f, getWidth() / 2f, getHeight() / 2f);
 
         }
-
+        sticker.setContainerView(this);
         handlingSticker = sticker;
         stickers.add(sticker);
         if (onStickerOperationListener != null) {
