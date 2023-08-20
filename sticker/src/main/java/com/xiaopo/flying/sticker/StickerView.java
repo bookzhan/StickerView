@@ -694,7 +694,7 @@ public class StickerView extends FrameLayout {
     }
 
     public boolean remove(@Nullable Sticker sticker) {
-        if (stickers.contains(sticker)) {
+        if (null != sticker && stickers.contains(sticker)) {
             stickers.remove(sticker);
             if (onStickerOperationListener != null) {
                 onStickerOperationListener.onStickerDeleted(sticker);
@@ -702,6 +702,7 @@ public class StickerView extends FrameLayout {
             if (handlingSticker == sticker) {
                 handlingSticker = null;
             }
+            sticker.release();
             invalidate();
 
             return true;
