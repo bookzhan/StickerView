@@ -822,6 +822,11 @@ public class StickerView extends FrameLayout {
         return stickers.size();
     }
 
+    @NonNull
+    public List<Sticker> getAllSticker() {
+        return stickers;
+    }
+
     public boolean isNoneSticker() {
         return getStickerCount() == 0;
     }
