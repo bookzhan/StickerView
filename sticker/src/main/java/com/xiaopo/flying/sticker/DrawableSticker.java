@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 public class DrawableSticker extends Sticker {
 
   private Drawable drawable;
-  private Rect realBounds;
+  protected Rect realBounds;
 
   public DrawableSticker(Drawable drawable) {
     this.drawable = drawable;
