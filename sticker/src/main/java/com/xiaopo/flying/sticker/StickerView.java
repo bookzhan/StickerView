@@ -718,12 +718,16 @@ public class StickerView extends FrameLayout {
     }
 
     public void removeAllStickers() {
-        stickers.clear();
-        if (handlingSticker != null) {
-            handlingSticker.release();
-            handlingSticker = null;
-        }
+        release();
+        handlingSticker = null;
         invalidate();
+    }
+
+    public void release() {
+        for (Sticker sticker : stickers) {
+            sticker.release();
+        }
+        stickers.clear();
     }
 
     @NonNull
