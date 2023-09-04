@@ -22,6 +22,7 @@ import java.lang.ref.SoftReference;
 public abstract class Sticker {
 
     private SoftReference<View> mContainerView;
+    protected boolean mIsRelease;
 
     @IntDef(flag = true, value = {
             Position.CENTER, Position.TOP, Position.BOTTOM, Position.LEFT, Position.RIGHT
@@ -293,5 +294,6 @@ public abstract class Sticker {
     }
 
     public void release() {
+        mIsRelease = true;
     }
 }
