@@ -12,8 +12,8 @@ import androidx.annotation.NonNull;
  */
 public class DrawableSticker extends Sticker {
 
-    protected Drawable drawable;
-    protected Rect realBounds;
+    private volatile Drawable drawable;
+    private volatile Rect realBounds;
 
     public DrawableSticker() {
 
@@ -34,6 +34,14 @@ public class DrawableSticker extends Sticker {
     public DrawableSticker setDrawable(@NonNull Drawable drawable) {
         this.drawable = drawable;
         return this;
+    }
+
+    public Rect getRealBounds() {
+        return realBounds;
+    }
+
+    public void setRealBounds(Rect realBounds) {
+        this.realBounds = realBounds;
     }
 
     @Override
