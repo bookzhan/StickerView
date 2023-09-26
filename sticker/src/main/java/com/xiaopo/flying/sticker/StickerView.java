@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Sticker View
@@ -70,7 +72,7 @@ public class StickerView extends FrameLayout {
     public static final int FLIP_HORIZONTALLY = 1;
     public static final int FLIP_VERTICALLY = 1 << 1;
 
-    private final List<Sticker> stickers = new ArrayList<>();
+    private final List<Sticker> stickers = new CopyOnWriteArrayList<>();
     private final List<BitmapStickerIcon> icons = new ArrayList<>(4);
 
     private final Paint borderPaint = new Paint();
