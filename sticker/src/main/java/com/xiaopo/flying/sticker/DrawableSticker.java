@@ -53,6 +53,22 @@ public class DrawableSticker extends Sticker {
         canvas.restore();
     }
 
+    @Override
+    public void drawByTime(@NonNull Canvas canvas, long currentTime) {
+        if (isEnableGradient() && getStartTime() > 0 && getEndTime() > getStartTime()) {
+            long time = currentTime - getStartTime();
+            if (time <= mGradientTime) {
+                drawable.setAlpha((int) (time / mGradientTime * 255));
+            } else if (getEndTime() - currentTime <= mGradientTime) {
+                drawable.setAlpha((int) ((getEndTime() - currentTime) / mGradientTime * 255));
+            } else {
+                drawable.setAlpha(255);
+            }
+        } else {
+            draw(canvas);
+        }
+    }
+
     @NonNull
     @Override
     public DrawableSticker setAlpha(@IntRange(from = 0, to = 255) int alpha) {

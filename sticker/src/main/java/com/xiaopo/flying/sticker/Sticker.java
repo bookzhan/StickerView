@@ -20,7 +20,8 @@ import java.lang.ref.SoftReference;
  * @author wupanjie
  */
 public abstract class Sticker {
-
+    protected float mGradientTime = 200;
+    protected boolean mEnableGradient = true;
     private SoftReference<View> mContainerView;
     protected boolean mIsRelease;
 
@@ -47,6 +48,8 @@ public abstract class Sticker {
     private boolean isFlippedVertically;
     private boolean autoScaleToFit = true;
     private boolean onSizeChangedResetPosition = false;
+    protected long startTime = 0;
+    protected long endTime = 0;
 
 
     public boolean isFlippedHorizontally() {
@@ -80,6 +83,8 @@ public abstract class Sticker {
     }
 
     public abstract void draw(@NonNull Canvas canvas);
+
+    public abstract void drawByTime(@NonNull Canvas canvas, long currentTime);
 
     public abstract int getWidth();
 
@@ -295,5 +300,37 @@ public abstract class Sticker {
 
     public void release() {
         mIsRelease = true;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
+    }
+
+    public boolean isEnableGradient() {
+        return mEnableGradient;
+    }
+
+    public void setEnableGradient(boolean enableGradient) {
+        mEnableGradient = enableGradient;
+    }
+
+    public float getGradientTime() {
+        return mGradientTime;
+    }
+
+    public void setGradientTime(float gradientTime) {
+        mGradientTime = gradientTime;
     }
 }
