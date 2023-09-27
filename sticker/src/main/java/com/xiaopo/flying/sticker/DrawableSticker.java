@@ -55,7 +55,16 @@ public class DrawableSticker extends Sticker {
 
     @Override
     public void drawByTime(@NonNull Canvas canvas, long currentTime) {
-        if (isEnableGradient() && getStartTime() > 0 && getEndTime() > getStartTime()) {
+        //没有设置时间,或者时间设置无效
+        if (getEndTime() < 0 || getEndTime() <= getStartTime()) {
+            draw(canvas);
+            return;
+        }
+        //currentTime不在绘制的区间内,不绘制,留白
+        if (currentTime < getStartTime() || currentTime >= getEndTime()) {
+            return;
+        }
+        if (isEnableGradient()) {
             long time = currentTime - getStartTime();
             if (time <= mGradientTime) {
                 drawable.setAlpha((int) (time / mGradientTime * 255));
@@ -64,9 +73,8 @@ public class DrawableSticker extends Sticker {
             } else {
                 drawable.setAlpha(255);
             }
-        } else {
-            draw(canvas);
         }
+        draw(canvas);
     }
 
     @NonNull
