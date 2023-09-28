@@ -64,15 +64,13 @@ public class DrawableSticker extends Sticker {
         if (currentTime < getStartTime() || currentTime >= getEndTime()) {
             return;
         }
-        if (isEnableGradient()) {
-            long time = currentTime - getStartTime();
-            if (time <= mGradientTime) {
-                drawable.setAlpha((int) (time / mGradientTime * 255));
-            } else if (getEndTime() - currentTime <= mGradientTime) {
-                drawable.setAlpha((int) ((getEndTime() - currentTime) / mGradientTime * 255));
-            } else {
-                drawable.setAlpha(255);
-            }
+        long time = currentTime - getStartTime();
+        if (time <= mGradientTime && isEnableGradientStart()) {
+            drawable.setAlpha((int) (time / mGradientTime * 255));
+        } else if (getEndTime() - currentTime <= mGradientTime && isEnableGradientEnd()) {
+            drawable.setAlpha((int) ((getEndTime() - currentTime) / mGradientTime * 255));
+        } else {
+            drawable.setAlpha(255);
         }
         draw(canvas);
     }

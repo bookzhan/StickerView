@@ -21,7 +21,8 @@ import java.lang.ref.SoftReference;
  */
 public abstract class Sticker {
     protected float mGradientTime = 200;
-    protected boolean mEnableGradient = true;
+    protected boolean mEnableGradientStart = true;
+    protected boolean mEnableGradientEnd = true;
     private SoftReference<View> mContainerView;
     protected boolean mIsRelease;
 
@@ -318,12 +319,12 @@ public abstract class Sticker {
         this.endTime = endTime;
     }
 
-    public boolean isEnableGradient() {
-        return mEnableGradient;
+    public boolean isEnableGradientStart() {
+        return mEnableGradientStart;
     }
 
-    public void setEnableGradient(boolean enableGradient) {
-        mEnableGradient = enableGradient;
+    public void setEnableGradientStart(boolean enableGradientStart) {
+        mEnableGradientStart = enableGradientStart;
     }
 
     public float getGradientTime() {
@@ -332,5 +333,13 @@ public abstract class Sticker {
 
     public void setGradientTime(float gradientTime) {
         mGradientTime = gradientTime;
+    }
+
+    public boolean isEnableGradientEnd() {
+        return mEnableGradientEnd;
+    }
+
+    public void setEnableGradientEnd(boolean enableGradientEnd) {
+        mEnableGradientEnd = enableGradientEnd;
     }
 }

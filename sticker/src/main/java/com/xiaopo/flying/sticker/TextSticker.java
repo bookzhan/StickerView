@@ -122,15 +122,13 @@ public class TextSticker extends Sticker {
         if (currentTime < getStartTime() || currentTime >= getEndTime()) {
             return;
         }
-        if (isEnableGradient()) {
-            long time = currentTime - getStartTime();
-            if (time <= mGradientTime) {
-                textPaint.setAlpha((int) (time / mGradientTime * 255));
-            } else if (getEndTime() - currentTime <= mGradientTime) {
-                textPaint.setAlpha((int) ((getEndTime() - currentTime) / mGradientTime * 255));
-            } else {
-                textPaint.setAlpha(255);
-            }
+        long time = currentTime - getStartTime();
+        if (time <= mGradientTime && isEnableGradientStart()) {
+            textPaint.setAlpha((int) (time / mGradientTime * 255));
+        } else if (getEndTime() - currentTime <= mGradientTime && isEnableGradientEnd()) {
+            textPaint.setAlpha((int) ((getEndTime() - currentTime) / mGradientTime * 255));
+        } else {
+            textPaint.setAlpha(255);
         }
         draw(canvas);
     }
