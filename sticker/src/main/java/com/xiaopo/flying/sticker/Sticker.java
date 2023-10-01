@@ -361,9 +361,6 @@ public abstract class Sticker {
     }
 
     public boolean stickerEnable(long currentTime) {
-        if (currentTime < 0) {
-            return true;
-        }
         if (!startEndTimeAvailable()) {
             return true;
         }
