@@ -10,6 +10,11 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.SystemClock;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.ViewConfiguration;
+import android.widget.FrameLayout;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
@@ -18,12 +23,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.MotionEventCompat;
 import androidx.core.view.ViewCompat;
 
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.ViewConfiguration;
-import android.widget.FrameLayout;
-
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -31,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -206,18 +204,13 @@ public class StickerView extends FrameLayout {
     }
 
     protected void drawStickers(Canvas canvas) {
-        int drawStickerCount = 0;
         for (int i = 0; i < stickers.size(); i++) {
             Sticker sticker = stickers.get(i);
             if (sticker != null && sticker.stickerEnable()) {
                 sticker.drawByTime(canvas, sticker.getCurrentTime());
-                drawStickerCount++;
             }
         }
-        if (drawStickerCount <= 0) {
-            return;
-        }
-        if (handlingSticker != null && !locked && (showBorder || showIcons)) {
+        if (handlingSticker != null && !locked && (showBorder || showIcons) && handlingSticker.stickerEnable()) {
 
             getStickerPoints(handlingSticker, bitmapPoints);
 

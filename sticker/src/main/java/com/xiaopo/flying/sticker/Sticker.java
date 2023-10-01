@@ -20,7 +20,7 @@ import java.lang.ref.SoftReference;
  * @author wupanjie
  */
 public abstract class Sticker {
-    protected float mGradientTime = 150;
+    protected float mGradientTime = 200;
     protected boolean mEnableGradientStart = true;
     protected boolean mEnableGradientEnd = true;
     private SoftReference<View> mContainerView;
