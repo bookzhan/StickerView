@@ -49,6 +49,7 @@ public abstract class Sticker {
     private boolean isFlippedVertically;
     private boolean autoScaleToFit = true;
     private boolean onSizeChangedResetPosition = false;
+    protected long currentTime = -1;
     protected long startTime = 0;
     protected long endTime = 0;
 
@@ -341,5 +342,31 @@ public abstract class Sticker {
 
     public void setEnableGradientEnd(boolean enableGradientEnd) {
         mEnableGradientEnd = enableGradientEnd;
+    }
+
+    public boolean startEndTimeAvailable() {
+        return endTime > startTime && endTime > 0;
+    }
+
+    public long getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setCurrentTime(long currentTime) {
+        this.currentTime = currentTime;
+    }
+
+    public boolean stickerEnable() {
+        return stickerEnable(currentTime);
+    }
+
+    public boolean stickerEnable(long currentTime) {
+        if (currentTime < 0) {
+            return true;
+        }
+        if (!startEndTimeAvailable()) {
+            return true;
+        }
+        return currentTime >= startTime && currentTime < endTime;
     }
 }

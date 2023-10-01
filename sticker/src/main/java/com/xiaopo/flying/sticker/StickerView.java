@@ -206,13 +206,17 @@ public class StickerView extends FrameLayout {
     }
 
     protected void drawStickers(Canvas canvas) {
+        int drawStickerCount = 0;
         for (int i = 0; i < stickers.size(); i++) {
             Sticker sticker = stickers.get(i);
-            if (sticker != null) {
-                sticker.draw(canvas);
+            if (sticker != null && sticker.stickerEnable()) {
+                sticker.drawByTime(canvas, sticker.getCurrentTime());
+                drawStickerCount++;
             }
         }
-
+        if (drawStickerCount <= 0) {
+            return;
+        }
         if (handlingSticker != null && !locked && (showBorder || showIcons)) {
 
             getStickerPoints(handlingSticker, bitmapPoints);
@@ -517,7 +521,7 @@ public class StickerView extends FrameLayout {
     protected boolean isInStickerArea(@NonNull Sticker sticker, float downX, float downY) {
         tmp[0] = downX;
         tmp[1] = downY;
-        return sticker.contains(tmp);
+        return sticker.contains(tmp) && sticker.stickerEnable();
     }
 
     @NonNull

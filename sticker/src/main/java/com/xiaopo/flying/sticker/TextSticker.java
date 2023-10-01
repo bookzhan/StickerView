@@ -114,12 +114,12 @@ public class TextSticker extends Sticker {
     @Override
     public void drawByTime(@NonNull Canvas canvas, long currentTime) {
         //没有设置时间,或者时间设置无效
-        if (getEndTime() < 0 || getEndTime() <= getStartTime()) {
+        if (!startEndTimeAvailable()) {
             draw(canvas);
             return;
         }
         //currentTime不在绘制的区间内,不绘制,留白
-        if (currentTime < getStartTime() || currentTime >= getEndTime()) {
+        if (!stickerEnable(currentTime)) {
             return;
         }
         long time = currentTime - getStartTime();
