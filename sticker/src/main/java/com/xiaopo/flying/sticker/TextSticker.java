@@ -43,6 +43,7 @@ public class TextSticker extends Sticker {
     private Drawable drawable;
     private Layout.Alignment alignment;
     private String text;
+    private boolean isEmoji = false;
 
     /**
      * Upper bounds for text size.
@@ -66,6 +67,7 @@ public class TextSticker extends Sticker {
     private float lineSpacingExtra = 0.0f;
     @Nullable
     private Bitmap mTextBitmap;
+    private StaticLayout mStaticLayout;
 
     public TextSticker(@NonNull Context context) {
         this(context, null);
@@ -97,22 +99,27 @@ public class TextSticker extends Sticker {
         }
         canvas.restore();
 
-        if (null == mTextBitmap || mTextBitmap.isRecycled()) {
+        if ((null == mTextBitmap || mTextBitmap.isRecycled()) && (null == mStaticLayout)) {
             return;
         }
 
         canvas.save();
         canvas.concat(matrix);
+        int height = null != mTextBitmap ? mTextBitmap.getHeight() : mStaticLayout.getHeight();
         if (textRect.width() == getWidth()) {
-            int dy = getHeight() / 2 - mTextBitmap.getHeight() / 2;
+            int dy = getHeight() / 2 - height / 2;
             // center vertical
             canvas.translate(0, dy);
         } else {
             int dx = textRect.left;
-            int dy = textRect.top + textRect.height() / 2 - mTextBitmap.getHeight() / 2;
+            int dy = textRect.top + textRect.height() / 2 - height / 2;
             canvas.translate(dx, dy);
         }
-        canvas.drawBitmap(mTextBitmap, 0, 0, textPaint);
+        if (null != mTextBitmap) {
+            canvas.drawBitmap(mTextBitmap, 0, 0, textPaint);
+        } else if (null != mStaticLayout) {
+            mStaticLayout.draw(canvas);
+        }
         canvas.restore();
     }
 
@@ -325,16 +332,17 @@ public class TextSticker extends Sticker {
             }
         }
         textPaint.setTextSize(targetTextSizePixels);
-        StaticLayout staticLayout =
-                new StaticLayout(this.text, textPaint, textRect.width(), alignment, lineSpacingMultiplier,
-                        lineSpacingExtra, true);
-        if (staticLayout.getWidth() <= 0 || staticLayout.getHeight() <= 0) {
+        mStaticLayout = new StaticLayout(this.text, textPaint, textRect.width(), alignment, lineSpacingMultiplier,
+                lineSpacingExtra, true);
+        if (mStaticLayout.getWidth() <= 0 || mStaticLayout.getHeight() <= 0) {
             return this;
         }
-        //文字不支持超大放大,用Bitmap替代
-        mTextBitmap = Bitmap.createBitmap(textRect.width(), textRect.height(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(mTextBitmap);
-        staticLayout.draw(canvas);
+        if (isEmoji) {
+            //文字不支持超大放大,用Bitmap替代
+            mTextBitmap = Bitmap.createBitmap(textRect.width(), textRect.height(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(mTextBitmap);
+            mStaticLayout.draw(canvas);
+        }
         return this;
     }
 
@@ -372,5 +380,11 @@ public class TextSticker extends Sticker {
         return scaledPixels * context.getResources().getDisplayMetrics().scaledDensity;
     }
 
+    public boolean isEmoji() {
+        return isEmoji;
+    }
 
+    public void setEmoji(boolean emoji) {
+        isEmoji = emoji;
+    }
 }
