@@ -1,11 +1,15 @@
 package com.xiaopo.flying.sticker;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Dimension;
@@ -13,10 +17,6 @@ import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-
-import android.text.Layout;
-import android.text.StaticLayout;
-import android.text.TextPaint;
 
 /**
  * Customize your sticker with text and image background.
@@ -41,7 +41,6 @@ public class TextSticker extends Sticker {
     private final Rect textRect;
     private final TextPaint textPaint;
     private Drawable drawable;
-    private StaticLayout staticLayout;
     private Layout.Alignment alignment;
     private String text;
 
@@ -65,6 +64,8 @@ public class TextSticker extends Sticker {
      * Additional line spacing.
      */
     private float lineSpacingExtra = 0.0f;
+    @Nullable
+    private Bitmap mTextBitmap;
 
     public TextSticker(@NonNull Context context) {
         this(context, null);
@@ -96,18 +97,22 @@ public class TextSticker extends Sticker {
         }
         canvas.restore();
 
+        if (null == mTextBitmap || mTextBitmap.isRecycled()) {
+            return;
+        }
+
         canvas.save();
         canvas.concat(matrix);
         if (textRect.width() == getWidth()) {
-            int dy = getHeight() / 2 - staticLayout.getHeight() / 2;
+            int dy = getHeight() / 2 - mTextBitmap.getHeight() / 2;
             // center vertical
             canvas.translate(0, dy);
         } else {
             int dx = textRect.left;
-            int dy = textRect.top + textRect.height() / 2 - staticLayout.getHeight() / 2;
+            int dy = textRect.top + textRect.height() / 2 - mTextBitmap.getHeight() / 2;
             canvas.translate(dx, dy);
         }
-        staticLayout.draw(canvas);
+        canvas.drawBitmap(mTextBitmap, 0, 0, textPaint);
         canvas.restore();
     }
 
@@ -148,6 +153,12 @@ public class TextSticker extends Sticker {
         super.release();
         if (drawable != null) {
             drawable = null;
+        }
+        if (null != mTextBitmap) {
+            if (!mTextBitmap.isRecycled()) {
+                mTextBitmap.recycle();
+            }
+            mTextBitmap = null;
         }
     }
 
@@ -314,9 +325,16 @@ public class TextSticker extends Sticker {
             }
         }
         textPaint.setTextSize(targetTextSizePixels);
-        staticLayout =
+        StaticLayout staticLayout =
                 new StaticLayout(this.text, textPaint, textRect.width(), alignment, lineSpacingMultiplier,
                         lineSpacingExtra, true);
+        if (staticLayout.getWidth() <= 0 || staticLayout.getHeight() <= 0) {
+            return this;
+        }
+        //文字不支持超大放大,用Bitmap替代
+        mTextBitmap = Bitmap.createBitmap(textRect.width(), textRect.height(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(mTextBitmap);
+        staticLayout.draw(canvas);
         return this;
     }
 
@@ -353,4 +371,6 @@ public class TextSticker extends Sticker {
     private float convertSpToPx(float scaledPixels) {
         return scaledPixels * context.getResources().getDisplayMetrics().scaledDensity;
     }
+
+
 }
