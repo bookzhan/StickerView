@@ -337,7 +337,7 @@ public class TextSticker extends Sticker {
         if (mStaticLayout.getWidth() <= 0 || mStaticLayout.getHeight() <= 0) {
             return this;
         }
-        if (isEmoji) {
+        if (isEmoji || text.length() <= 2) {
             //文字不支持超大放大,用Bitmap替代
             mTextBitmap = Bitmap.createBitmap(textRect.width(), textRect.height(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(mTextBitmap);
