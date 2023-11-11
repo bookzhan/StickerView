@@ -1,5 +1,6 @@
 package com.xiaopo.flying.sticker;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.PointF;
@@ -15,12 +16,14 @@ import androidx.annotation.Nullable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.SoftReference;
+import java.util.UUID;
 
 /**
  * @author wupanjie
  */
 public abstract class Sticker {
     protected float mGradientTime = 200;
+    private final String id = UUID.randomUUID().toString();
     protected boolean mEnableGradientStart = true;
     protected boolean mEnableGradientEnd = true;
     private SoftReference<View> mContainerView;
@@ -365,5 +368,16 @@ public abstract class Sticker {
             return true;
         }
         return currentTime >= startTime && currentTime < endTime;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Bitmap getThumbnail() {
+        Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        draw(canvas);
+        return bitmap;
     }
 }
