@@ -388,4 +388,15 @@ public class TextSticker extends Sticker {
     public void setEmoji(boolean emoji) {
         isEmoji = emoji;
     }
+
+    @Override
+    public Bitmap getThumbnail() {
+        if (null == mStaticLayout) {
+            return null;
+        }
+        Bitmap bitmap = Bitmap.createBitmap(mStaticLayout.getWidth(), mStaticLayout.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        mStaticLayout.draw(canvas);
+        return bitmap;
+    }
 }

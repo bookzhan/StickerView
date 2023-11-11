@@ -1,11 +1,13 @@
 package com.xiaopo.flying.sticker;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * @author wupanjie
@@ -106,5 +108,13 @@ public class DrawableSticker extends Sticker {
         if (drawable != null) {
             drawable = null;
         }
+    }
+
+    @Override
+    public Bitmap getThumbnail() {
+        Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.draw(canvas);
+        return bitmap;
     }
 }
