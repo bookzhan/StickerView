@@ -52,7 +52,7 @@ public abstract class Sticker {
     private boolean isFlippedVertically;
     private boolean autoScaleToFit = true;
     private boolean onSizeChangedResetPosition = false;
-    protected long currentTime = -1;
+    protected long currentTime = 0;
     protected long startTime = 0;
     protected long endTime = 0;
 
